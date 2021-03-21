@@ -35,3 +35,7 @@ app.listen(port, () => console.log(`Server running on port ${port}`));
 //user
 //post - userId
 //comment - postId
+
+//TODO - salt passwords
+//TODO - login
+//TODO - register
