@@ -15,8 +15,8 @@ UserSchema.statics.findByUserName = function (username) {
     return this.findOne({ username: username });
   }; 
 
-  UserSchema.statics.findPassword = function (username) {
-    var username =  this.findOne({ username: username });
+  UserSchema.method.findPassword = function () {
+      console.log(this)
     return this.password;
   }; 
 

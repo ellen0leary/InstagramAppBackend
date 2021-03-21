@@ -19,13 +19,14 @@ router.post('/', (req, res, next)=>{
           });
     }else{
         const user = User.findByUserName(req.body.userName)
+        console.log(user)
         if(!user ){
             res.status(401).json({
                 success: false,
                 msg: 'No account .',
               });
-        }else if( user.password != req.body.password){
-            console.log(user.password)
+        }else if( user.findPassword != req.body.password){
+            console.log(user.findPassword)
             res.status(401).json({
                 success: false,
                 msg: ' incorect password.',
