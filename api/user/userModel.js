@@ -20,8 +20,6 @@ UserSchema.statics.findByUserName = function (username) {
 
   UserSchema.methods.comparePassword = function(passw, cb) {
     bcrypt.compare(passw, this.password, (err, isMatch) => {
-        console.log(passw)
-        console.log(this.password)
         if (err) {
             return cb(err);
         }
@@ -32,25 +30,19 @@ UserSchema.statics.findByUserName = function (username) {
 
   UserSchema.pre('save', function(next) {
     const user = this; 
-    console.log("starting" +user.userName)
         bcrypt.genSalt(10, (err, salt)=> {
             if (err) {
-                console.log("gensalt " + err)
                 return next(err);
             }
             bcrypt.hash(user.password, salt, null, (err, hash)=> {
                 if (err) {
-                    console.log("hash error " +err)
                     return next(err);
                 }
-                console.log("hash " + hash)
                 user.password = hash;
-                console.log(user.password)
                 next();
             });
 
         });
-        console.log(user.password)
     } );
 
 export default mongoose.model('User', UserSchema);
