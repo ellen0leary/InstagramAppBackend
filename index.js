@@ -2,8 +2,10 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import './db.js'
-import {loadUsers} from './seedData/index.js'
+import {loadUsers,loadPosts } from './seedData/index.js'
 import userRouter from './api/user/index.js';
+import postRouter from './api/post/index.js';
+
 // import session from 'express-session';
 // import passport from './authenicate';
 
@@ -25,10 +27,12 @@ app.use(bodyParser.urlencoded());
 // }));
 
 if(process.env.SEED_DB){
-    loadUsers()
+    loadUsers(),
+    loadPosts()
 }
 
 app.use('/api/user',userRouter);
+app.use('/api/post',postRouter);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 

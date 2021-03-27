@@ -17,7 +17,7 @@ export async function loadUsers(){
 export async function loadPosts(){
     try {
       await postModel.deleteMany();
-      await posts.fromEach(post => postModel.create(post));
+      await posts.forEach(post => postModel.create(post));
       console.info(`${posts.length} users were successfully stored.`);
     } catch(err) {
       console.error(`failed to load post data: ${err}`)
