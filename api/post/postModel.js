@@ -9,4 +9,8 @@ const PostSchema = new Schema({
 PostSchema.statics.findByUserId = function(user) {
     return this.find({userId: user});
 }
+
+PostSchema.statics.findByid = function(id) {
+    return this.find({_id: id});
+}
 export default mongoose.model("Post", PostSchema);
