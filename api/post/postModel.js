@@ -6,4 +6,7 @@ const PostSchema = new Schema({
     userId : {type:mongoose.Schema.Types.ObjectId, ref: "Users"}
 });
 
+PostSchema.statics.findByUserId = function(user) {
+    return this.find({userId: user});
+}
 export default mongoose.model("Post", PostSchema);
