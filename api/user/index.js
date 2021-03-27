@@ -43,18 +43,18 @@ router.post('/', async (req, res, next) => {
 });
 
 
-router.get('/search', (req,res,next) => {
-    console.log(req.query.user)
-    const user = User.findByUserName(req.query.user);
-    console.log(user.userName)
-    if(!user){
-        res.status(400).json( {
-            success : false,
-            msg: "No"
-        })
-    } else{
-        res.status(200).json( user)
-    }
+router.get('/id/:id', (req,res,next) => {
+    console.log(req.params.id)
+     User.findByUserName(req.params.id).then(user => res.status(200).json( user));
+    // console.log(user.userName)
+    // if(!user){
+    //     res.status(400).json( {
+    //         success : false,
+    //         msg: "No"
+    //     })
+    // } else{
+    //     res.status(200).json( user)
+    // }
     
 })
 // router.put();
