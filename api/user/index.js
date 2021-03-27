@@ -4,10 +4,12 @@ import User from './userModel.js';
 
 const router = express.Router();
 
+//gets all users
 router.get('/', (req, res, next) => {
     User.find().then(users => res.status(200).json(users)).catch(next);
 });
 
+//log in
 router.post('/', async (req, res, next) => {
     console.log(req.body.userName);
     console.log(req.body.password);
@@ -42,12 +44,18 @@ router.post('/', async (req, res, next) => {
         }}
 });
 
-
+//get by username
 router.get('/:name', (req,res,next) => {
-    console.log(req.params.id)
-     User.findByUserName(req.params.id).then(user => res.status(200).json( user));
+    console.log(req.params.name)
+     User.findByUserName(req.params.name).then(user => res.status(200).json( user));
     
 })
+
+//follow user
+router.post('/:userId/following/:id', (req, res,next) =>{
+    console.log(req.params.id);
+    console.log(req.params.id);
+});
 // router.put();
 // router.delete();
 
