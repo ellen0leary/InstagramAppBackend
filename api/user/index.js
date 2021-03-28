@@ -45,6 +45,11 @@ router.post('/', async (req, res, next) => {
         }}
 });
 
+router.post('/new', async (req, res, next) => {
+    await User.create(req.params.body)
+    res.status(200).json({success: true, meg: "USer created"})
+});
+
 //get by username
 router.get('/:name', (req,res,next) => {
     console.log(req.params.name)
@@ -72,21 +77,23 @@ router.post('/:userId/following/:id', async (req, res,next) =>{
             msg: "User followed"
         })
     } else {
-        res.status(400).json({status: false, msg: "Error"})
+        res.status(400).json({success: false, msg: "Error"})
     }
 });
 
 router.get('/:userId/following', async (req, res, next)=>{
     const user = await User.findById(req.params.userId)
-    if(!user) res.status(400).json({status: false, msg: "No user found"});
+    if(!user) res.status(400).json({success: false, msg: "No user found"});
     else res.status(200).json(user.following)
 });
 
 router.delete('/delete/:userId', async (req, res, next) => {
     const user = await User.findById(req.params.userId)
-    if(!user) res.status(400).json({status: false, msg: "Usere can't be found"})
+    if(!user) res.status(400).json({success: false, msg: "Usere can't be found"})
     else {
         await User.deleteOne({_id: req.params.userId})
-        res.status(200).json({status:true, msg: "Item deleted"});}
+        res.status(200).json({success:true, msg: "Item deleted"});}
 });
+
+
 export default router;
