@@ -45,8 +45,9 @@ router.post('/', async (req, res, next) => {
         }}
 });
 
+//creates a user
 router.post('/new', async (req, res, next) => {
-    await User.create(req.params.body)
+    await User.create(req.body).catch(next)
     res.status(200).json({success: true, meg: "USer created"})
 });
 
@@ -54,7 +55,6 @@ router.post('/new', async (req, res, next) => {
 router.get('/:name', (req,res,next) => {
     console.log(req.params.name)
      User.findByUserName(req.params.name).then(user => res.status(200).json( user));
-    
 })
 
 //get by id
@@ -81,12 +81,14 @@ router.post('/:userId/following/:id', async (req, res,next) =>{
     }
 });
 
+//gets who the user is following
 router.get('/:userId/following', async (req, res, next)=>{
     const user = await User.findById(req.params.userId)
     if(!user) res.status(400).json({success: false, msg: "No user found"});
     else res.status(200).json(user.following)
 });
 
+//deletes user by userId
 router.delete('/delete/:userId', async (req, res, next) => {
     const user = await User.findById(req.params.userId)
     if(!user) res.status(400).json({success: false, msg: "Usere can't be found"})

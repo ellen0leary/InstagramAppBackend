@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
-    userName: {type:String, required: true},
-    password: {type: String, required: true},
-    dateOfBirth: {type: Date, required: true, unique: true},
+    userName: {type:String, required: true}, 
+    password: {type: String, required: true}, 
+    dateOfBirth: {type: Date, required: true}, 
     following: [{type:mongoose.Schema.Types.ObjectId, ref: "Users"}]
 });
 
@@ -18,7 +18,6 @@ UserSchema.statics.findByUserName = function (username) {
     return this.findOne({ _id: id });
   }; 
 
-  UserSchema.
 
   UserSchema.methods.comparePassword = function(passw, cb) {
     bcrypt.compare(passw, this.password, (err, isMatch) => {
