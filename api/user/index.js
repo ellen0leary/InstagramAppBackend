@@ -6,12 +6,13 @@ const router = express.Router();
 
 //gets all users
 router.get('/', (req, res, next) => {
+    console.log("here")
     User.find().then(users => res.status(200).json(users)).catch(next);
 });
 
 //log in
 router.post('/', async (req, res, next) => {
-    console.log(req.body.userName);
+    console.log(req.body.userName)
     console.log(req.body.password);
     const user = await User.findByUserName(req.body.userName)
     if (!req.body.userName || !req.body.password) {
@@ -62,7 +63,6 @@ router.post('/:userId/following/:id', async (req, res,next) =>{
     const followUser = await User.findById(req.params.id);
     if(!user) res.status(400).json({status: false, msg: "No user found"})
     if(!followUser) res.status(400).json({status: false, msg: "No user to follow"})
-    console.log(user._id);console.log(followUser._id)
     if(user._id.equals( followUser._id)) res.status(400).json({status: false, msg: "Cannot follow yourself"})
     if(user.following.indexOf(req.params.id) === -1 ){
         user.following.push(req.params.id);
@@ -80,5 +80,13 @@ router.get('/:userId/following', async (req, res, next)=>{
     const user = await User.findById(req.params.userId)
     if(!user) res.status(400).json({status: false, msg: "No user found"});
     else res.status(200).json(user.following)
+});
+
+router.delete('/delete/:userId', async (req, res, next) => {
+    const user = await User.findById(req.params.userId)
+    if(!user) res.status(400).json({status: false, msg: "Usere can't be found"})
+    else {
+        await User.deleteOne({_id: req.params.userId})
+        res.status(200).json({status:true, msg: "Item deleted"});}
 });
 export default router;
