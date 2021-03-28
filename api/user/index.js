@@ -51,18 +51,22 @@ router.get('/:name', (req,res,next) => {
     
 })
 
+//get by id
 router.get('/search/:id', (req,res,next) => {
     User.findByid(req.params.id).then(user => res.status(200).json( user));
 })
 
 //follow user
 router.post('/:userId/following/:id', async (req, res,next) =>{
-    const user = await User.findByid(req.params.userId)
-    const followUser = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findById(req.params.userId)
+    const followUser = await User.findById(req.params.id);
     if(!user) res.status(400).json({status: false, msg: "No user found"})
     if(!followUser) res.status(400).json({status: false, msg: "No user to follow"})
-    if(user.following.indexOf(req.params.id) == -1){
+    console.log(user._id);console.log(followUser._id)
+    if(user._id.equals( followUser._id)) res.status(400).json({status: false, msg: "Cannot follow yourself"})
+    if(user.following.indexOf(req.params.id) === -1 ){
         user.following.push(req.params.id);
+        user.save()
         res.status(200).json({
             status: true, 
             msg: "User followed"
@@ -71,8 +75,10 @@ router.post('/:userId/following/:id', async (req, res,next) =>{
         res.status(400).json({status: false, msg: "Error"})
     }
 });
-// router.put();
-// router.delete();
 
-//get users - register/login user - update user - follow another user - get following
+router.get('/:userId/following', async (req, res, next)=>{
+    const user = await User.findById(req.params.userId)
+    if(!user) res.status(400).json({status: false, msg: "No user found"});
+    else res.status(200).json(user.following)
+});
 export default router;
