@@ -51,10 +51,25 @@ router.get('/:name', (req,res,next) => {
     
 })
 
+router.get('/search/:id', (req,res,next) => {
+    User.findByid(req.params.id).then(user => res.status(200).json( user));
+})
+
 //follow user
-router.post('/:userId/following/:id', (req, res,next) =>{
-    console.log(req.params.id);
-    console.log(req.params.id);
+router.post('/:userId/following/:id', async (req, res,next) =>{
+    const user = await User.findByid(req.params.userId)
+    const followUser = await User.findByIdAndDelete(req.params.id);
+    if(!user) res.status(400).json({status: false, msg: "No user found"})
+    if(!followUser) res.status(400).json({status: false, msg: "No user to follow"})
+    if(user.following.indexOf(req.params.id) == -1){
+        user.following.push(req.params.id);
+        res.status(200).json({
+            status: true, 
+            msg: "User followed"
+        })
+    } else {
+        res.status(400).json({status: false, msg: "Error"})
+    }
 });
 // router.put();
 // router.delete();
