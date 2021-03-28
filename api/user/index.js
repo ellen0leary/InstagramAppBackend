@@ -97,5 +97,4 @@ router.delete('/delete/:userId', async (req, res, next) => {
         res.status(200).json({success:true, msg: "Item deleted"});}
 });
 
-
 export default router;
