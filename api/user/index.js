@@ -48,7 +48,7 @@ router.post('/', async (req, res, next) => {
 //creates a user
 router.post('/new', async (req, res, next) => {
     const regex = RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/);
-    if(regex.test(req.body.password)){
+    if(regex.test(req.body.password)){ 
         await User.create(req.body).catch(next)
         res.status(200).json({success: true, msg: "User created"})
     } else{
