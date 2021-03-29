@@ -47,8 +47,12 @@ router.post('/', async (req, res, next) => {
 
 //creates a user
 router.post('/new', async (req, res, next) => {
-    await User.create(req.body).catch(next)
-    res.status(200).json({success: true, meg: "USer created"})
+    const regex = RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/);
+    if(regex.test(req.body.password)){
+        await User.create(req.body).catch(next)
+        res.status(200).json({success: true, msg: "User created"})
+    } else{
+         res.status(401).json({success: false, meg: "Password invalid"})}
 });
 
 //get by username
